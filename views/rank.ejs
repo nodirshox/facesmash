@@ -1,0 +1,12 @@
+<%- include('includes/header') %>
+
+<p>
+    Ranking all pictures
+</p>
+<ul>
+  <% items.map((image) => { %>
+    <li><img src="/pictures/<%= image.name %>" alt="1">Rank: <%= image.rank %></li>
+<%  }) %>
+</ul>
+
+<%- include('includes/footer') %>

@@ -1,0 +1,40 @@
+<%- include('includes/header') %>
+
+<h1>New Game</h1>
+<p>
+    Select which cat is <strong>cuter?</strong>
+</p>
+<div>
+    <% images.map((image, index) => { %>
+        <span image-id="<%= image._id %>"><img src="/pictures/<%= image.name %>" alt="1"></span>
+    <%  }) %>
+</div>
+<%- include('includes/footer') %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('span img').click(function(e){
+            let th=$(this);
+            let loserBox=th.parent().siblings().eq(0);
+            $.ajax({
+                url:'/vote',
+                type:'POST',
+                data:{
+                    winner:th.parent().attr('image-id'),
+                    loser:loserBox.attr('image-id')
+                },
+                success:function(data){
+                    //data=JSON.parse(data);
+                    console.log(data.result);
+                    if(data.result=='success'){
+                        loserBox.find('img').attr('src','/pictures/'+data.name);
+                    }
+                },
+                error:function(err){
+                    console.log('Error occured while voting:',err);
+                }
+            })
+        })
+    });
+</script>
+
